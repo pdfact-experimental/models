@@ -19,14 +19,16 @@
       authenticating against the server. Note that there must be a respective <server>-entry in
       your ~/.m2/settings.xml that specifies the credentials.-->
     <github.global.server>github</github.global.server>
+    <github.site.branch>refs/heads/mvn-repo</github.site.branch>
+    <github.site.message>Maven artifacts for ${project.version}</github.site.message>
     <github.site.repositoryOwner>pdfact-experimental</github.site.repositoryOwner>
     <github.site.repositoryName>${project.artifactId}</github.site.repositoryName>
   </properties>
 
-  <!-- Tell Maven to deploy artifacts to a temporary staging repository. -->
+  <!-- Tell Maven to deploy the artifacts to a temporary staging repository. -->
   <distributionManagement>
     <repository>
-      <id>tmp_repo</id>
+      <id>repo</id>
       <name>Temporary Staging Repository</name>
       <url>file://${project.build.localRepository}</url>
     </repository>
@@ -34,12 +36,13 @@
 
   <build>
     <plugins>
-      <!-- Tell Maven to deploy artifacts to a temporary staging repository. -->
       <plugin>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>2.8.2</version>
         <configuration>
-          <altDeploymentRepository>tmp_repo::default::file://${project.build.localRepository}</altDeploymentRepository>
+          <altDeploymentRepository>
+            repo::default::file://${project.build.localRepository}
+          </altDeploymentRepository>
         </configuration>
       </plugin>
 
@@ -48,16 +51,14 @@
         <artifactId>site-maven-plugin</artifactId>
         <version>0.11</version>
         <configuration>
-          <message>Maven artifacts for ${project.version}</message>
-          <noJekyll>true</noJekyll>
+          <branch>${github.site.branch}</branch>
           <outputDirectory>${project.build.localRepository}</outputDirectory>
-          <branch>refs/heads/mvn-repo</branch>
+          <message>${github.site.message}</message>
+          <noJekyll>true</noJekyll>
         </configuration>
         <executions>
           <execution>
-            <goals>
-              <goal>site</goal>
-            </goals>
+            <goals><goal>site</goal></goals>
             <phase>deploy</phase>
           </execution>
         </executions>
