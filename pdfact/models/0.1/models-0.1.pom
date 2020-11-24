@@ -19,6 +19,8 @@
       authenticating against the server. Note that there must be a respective <server>-entry in
       your ~/.m2/settings.xml that specifies the credentials.-->
     <github.global.server>github</github.global.server>
+    <github.site.repositoryOwner>pdfact-experimental</github.site.repositoryOwner>
+    <github.site.repositoryName>${project.artifactId}</github.site.repositoryName>
   </properties>
 
   <!-- Tell Maven to deploy artifacts to a temporary staging repository. -->
@@ -53,8 +55,6 @@
           <includes>
             <include>**/*</include>
           </includes>
-          <repositoryName>models</repositoryName>
-          <repositoryOwner>pdfact-experimental</repositoryOwner>
         </configuration>
         <executions>
           <execution>
